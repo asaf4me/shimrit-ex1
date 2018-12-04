@@ -1,2 +1,3 @@
 # shimrit-ex1
-first EX at shimrit course
+First EX at shimrit course
+this exersice implements hash table under certain rules.
