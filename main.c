@@ -94,7 +94,7 @@ int main()
             if (table->dType == INT_TYPE)
             {
                 readFunc(table, &data);
-                res = add(table, (void *)data);
+                res = add(table, (void *)(long)data);
             }
             else
             {
@@ -134,7 +134,7 @@ int main()
             if (table->dType == INT_TYPE)
             {
                 readFunc(table, &data);
-                res = removeObj(table, (void *)data);
+                res = removeObj(table, (void *)(long)data);
             }
             else
             {
@@ -174,7 +174,7 @@ int main()
             if (table->dType == INT_TYPE)
             {
                 readFunc(table, &data);
-                p = search(table, (void *)data);
+                p = search(table, (void *)(long)data);
             }
             else
             {
