@@ -2,15 +2,32 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <signal.h>
+#include <unistd.h>
 #include "GenericHashTable.h"
 
 #define INT_TYPE 0
 #define STR_TYPE 1
 
+int readFunc(Table *table, int *data);
+
+// void sig_handler(int signo , Table *table,char *str)
+// {
+//     if (signo == SIGINT)
+//     {
+//         if (table != NULL)
+//             freeTable(table);
+//         if (str != NULL)
+//             free(str);
+//     }
+// }
+
 int main()
 {
-    int index;
+    int index = -1;
+    int data = -1;
     Table *table = NULL;
+    // signal(SIGINT, sig_handler,table,str);
     printf("Welcome to hash table tester!\n");
     while (1)
     {
@@ -72,20 +89,39 @@ int main()
         }
         else if (index == 2)
         {
-            int data;
-            int res;
-            char *str;
             printf("\nPlease enter your data:\n");
+            int res = readFunc(table, &data);
             if (table->dType == INT_TYPE)
             {
-                scanf("%d", &data);
+                readFunc(table, &data);
                 res = add(table, (void *)data);
             }
             else
             {
-                sscanf("%s", &str);
+                unsigned int len_max = 1;
+                unsigned int current_size = 0;
+                char *str = (char *)malloc(len_max * sizeof(char));
+                current_size = len_max;
+                if (str != NULL)
+                {
+                    int c = EOF;
+                    unsigned int i = 0;
+                    c = getchar();
+                    while ((c = getchar()) != '\n' && c != EOF)
+                    {
+                        str[i++] = (char)c;
+                        if (i == current_size)
+                        {
+                            current_size = i + len_max;
+                            str = realloc(str, current_size);
+                        }
+                        str[i] = '\0';
+                    }
+                }
                 res = add(table, (void *)str);
+                free(str);
             }
+
             if (res == ERROR)
                 printf("Add failed...\n\n");
             else
@@ -93,46 +129,82 @@ int main()
         }
         else if (index == 3)
         {
-            int data;
-            int res;
-            char *str;
             printf("\nPlease enter your data:\n");
+            int res = readFunc(table, &data);
             if (table->dType == INT_TYPE)
             {
-                scanf("%d", &data);
+                readFunc(table, &data);
                 res = removeObj(table, (void *)data);
             }
             else
             {
-                sscanf("%s", &str);
+                unsigned int len_max = 1;
+                unsigned int current_size = 0;
+                char *str = (char *)malloc(len_max * sizeof(char));
+                current_size = len_max;
+                if (str != NULL)
+                {
+                    int c = EOF;
+                    unsigned int i = 0;
+                    c = getchar();
+                    while ((c = getchar()) != '\n' && c != EOF)
+                    {
+                        str[i++] = (char)c;
+                        if (i == current_size)
+                        {
+                            current_size = i + len_max;
+                            str = realloc(str, current_size);
+                        }
+                        str[i] = '\0';
+                    }
+                }
                 res = removeObj(table, (void *)str);
+                free(str);
             }
             if (res == ERROR)
-                printf("Remove failed...\n\n");
+                printf("\nRemove failed...\n\n");
             else
-                printf("Remove success.\n\n");
+                printf("\nRemove success.\n\n");
         }
         else if (index == 4)
         {
+            printf("\nPlease enter your data:\n");
+            Object *p;
             printf("\nSearching...\n");
-            int data;
-            char *str;
-            Object *res;
-            printf("Please enter your data:\n");
             if (table->dType == INT_TYPE)
             {
-                scanf("%d", &data);
-                res = search(table, (void *)data);
+                readFunc(table, &data);
+                p = search(table, (void *)data);
             }
             else
             {
-                sscanf("%s", &str);
-                res = search(table, (void *)str);
+                unsigned int len_max = 1;
+                unsigned int current_size = 0;
+                char *str = (char *)malloc(len_max * sizeof(char));
+                current_size = len_max;
+                if (str != NULL)
+                {
+                    int c = EOF;
+                    unsigned int i = 0;
+                    c = getchar();
+                    while ((c = getchar()) != '\n' && c != EOF)
+                    {
+                        str[i++] = (char)c;
+                        if (i == current_size)
+                        {
+                            current_size = i + len_max;
+                            str = realloc(str, current_size);
+                        }
+                        str[i] = '\0';
+                    }
+                    p = search(table, (void *)str);
+                    free(str);
+                }
+                if (p == NULL)
+                    printf("\nData didnt found.\n\n");
+                else
+                    printf("\nData found\n\n");
             }
-            if (res == NULL)
-                printf("\nData didnt found.\n\n");
-            else
-                printf("\nData found\n\n");
         }
         else if (index == 5)
         {
@@ -151,4 +223,14 @@ int main()
         freeTable(table);
     }
     return 0;
+}
+
+int readFunc(Table *table, int *data)
+{
+    if (table->dType == INT_TYPE)
+    {
+        scanf("%d", data);
+        return !ERROR;
+    }
+    return ERROR;
 }
