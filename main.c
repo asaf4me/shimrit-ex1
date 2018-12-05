@@ -90,7 +90,7 @@ int main()
         else if (index == 2)
         {
             printf("\nPlease enter your data:\n");
-            int res = readFunc(table, &data);
+            int res;
             if (table->dType == INT_TYPE)
             {
                 readFunc(table, &data);
@@ -130,7 +130,7 @@ int main()
         else if (index == 3)
         {
             printf("\nPlease enter your data:\n");
-            int res = readFunc(table, &data);
+            int res;
             if (table->dType == INT_TYPE)
             {
                 readFunc(table, &data);
@@ -200,11 +200,11 @@ int main()
                     p = search(table, (void *)str);
                     free(str);
                 }
-                if (p == NULL)
-                    printf("\nData didnt found.\n\n");
-                else
-                    printf("\nData found\n\n");
             }
+            if (p == NULL)
+                printf("\nData didnt found.\n\n");
+            else
+                printf("\nData found\n\n");
         }
         else if (index == 5)
         {
