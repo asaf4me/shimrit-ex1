@@ -8,26 +8,26 @@
 
 #define INT_TYPE 0
 #define STR_TYPE 1
+Table *table = NULL; //Global to handle SIGINT
 
 int readFunc(Table *table, int *data);
 
-// void sig_handler(int signo , Table *table,char *str)
-// {
-//     if (signo == SIGINT)
-//     {
-//         if (table != NULL)
-//             freeTable(table);
-//         if (str != NULL)
-//             free(str);
-//     }
-// }
+void sig_handler(int signo)
+{
+    if (signo == SIGINT)
+    {
+        if (table != NULL)
+            freeTable(table);
+    }
+    printf("\nProccess killed, all the memory freed\n");
+    exit(EXIT_SUCCESS);
+}
 
 int main()
 {
     int index = -1;
     int data = -1;
-    Table *table = NULL;
-    // signal(SIGINT, sig_handler,table,str);
+    signal(SIGINT, sig_handler);
     printf("Welcome to hash table tester!\n");
     while (1)
     {
