@@ -42,7 +42,7 @@ int main()
         scanf("%d", &index);
         while (index > 6 || index < 0)
         {
-            printf("\nWrong choice, please choose:\n1 - create table\n2 - Add element\n3 - Remove element\n4 - Print table\n5 - Exit\n\n");
+            printf("\nWrong choice, please choose:\n2 - Add element\n3 - Remove element\n4 - Print table\n5 - Exit\n\n");
             scanf("%d", &index);
         }
         int size = -1;
