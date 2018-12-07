@@ -21,16 +21,6 @@ void sig_handler(int signo)
     exit(EXIT_SUCCESS);
 }
 
-int validation(char c)
-{
-    if (!isdigit(c))
-    {
-        printf("Invalid input, please try again\n");
-        return ERROR;
-    }
-    return (int)c;
-}
-
 int input()
 {
     int c, data;
