@@ -4,13 +4,11 @@
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
+#include <ctype.h>
 #include "GenericHashTable.h"
 
-#define INT_TYPE 0
-#define STR_TYPE 1
 Table *table = NULL; //Global to handle SIGINT
-
-int readFunc(Table *table, int *data);
+#define TRUE 1
 
 void sig_handler(int signo)
 {
@@ -23,77 +21,77 @@ void sig_handler(int signo)
     exit(EXIT_SUCCESS);
 }
 
-int main()
+int validation(char c)
 {
-    int index = -1;
-    int data = -1;
-    signal(SIGINT, sig_handler);
-    printf("Welcome to hash table tester!\n");
-    while (1)
+    if (!isdigit(c))
     {
-        if (table == NULL)
+        printf("Invalid input, please try again\n");
+        return ERROR;
+    }
+    return (int)c;
+}
+
+int input()
+{
+    int c, data;
+    if (table == NULL)
+    {
+        printf("Type 1 to create table\n");
+        if (scanf("%d", &c) == 0 || c != 1)
         {
-            printf("Type 1 to create table\n");
+            printf("Wrong input... ");
+            while (getchar() != '\n')
+                ;
+            return ERROR;
         }
-        else
+        int size, dType, listLength;
+        printf("Please type table size (size > 0)\n");
+        while (scanf("%d", &size) == 0 || size <= 0)
         {
-            printf("Choose:\n2 - Add element\n3 - Remove element\n4 - Search element\n5 - Print table\n6 - Exit\n");
+            printf("Wrong input... Please type table size (size > 0)\n");
+            while (getchar() != '\n')
+                ;
         }
-        scanf("%d", &index);
-        while (index > 6 || index < 0)
+        printf("Please type table type (type 0 for int, 1 for string)\n");
+        while (scanf("%d", &dType) == 0 || (dType != 0 && dType != 1))
         {
-            printf("\nWrong choice, please choose:\n2 - Add element\n3 - Remove element\n4 - Print table\n5 - Exit\n\n");
-            scanf("%d", &index);
+            printf("Wrong input... Please type table type (type 0 for int, 1 for string)\n");
+            while (getchar() != '\n')
+                ;
         }
-        int size = -1;
-        int dType = -1;
-        int listLength = -1;
-        if (index == 1 && table == NULL)
+        printf("Please type linked list length (length > 0)\n");
+        while (scanf("%d", &listLength) == 0 || listLength <= 0)
         {
-            for (int i = 0; i < 3; i++)
-            {
-                if (i == 0)
-                {
-                    printf("Please type table size (size > 0)\n");
-                    scanf("%d", &size);
-                    while (size < 0)
-                    {
-                        printf("size < 0, Please type table size\n");
-                        scanf("%d", &size);
-                    }
-                }
-                else if (i == 1)
-                {
-                    printf("Please type table type (type 0 for int, 1 for string)\n");
-                    scanf("%d", &dType);
-                    while (dType != 0 && dType != 1)
-                    {
-                        printf("type != 0 || type != 1\n");
-                        scanf("%d", &dType);
-                    }
-                }
-                else
-                {
-                    printf("Please type linked list length (length > 0)\n");
-                    scanf("%d", &listLength);
-                    while (listLength < 0)
-                    {
-                        printf("length < 0, Please type linked list length\n");
-                        scanf("%d", &listLength);
-                    }
-                }
-            }
-            table = createTable(size, dType, listLength);
-            assert(table != NULL);
-            printf("\nTable created succesfully\ntable size is: %d\ntable type is: %d\nlist length is: %d\n\n", table->size, table->dType, table->listLength);
+            printf("Wrong input... Please type linked list length (length > 0)\n");
+            while (getchar() != '\n')
+                ;
         }
-        else if (index == 2)
+        table = createTable(size, dType, listLength);
+        assert(table != NULL);
+        printf("\nTable created succesfully\ntable size is: %d\ntable type is: %d\nlist length is: %d\n\n", table->size, table->dType, table->listLength);
+    }
+    else
+    {
+        printf("Choose:\n2 - Add element\n3 - Remove element\n4 - Search element\n5 - Print table\n6 - Exit\n");
+        if (scanf("%d", &c) == 0 || c < 2 || c > 6)
+        {
+            printf("Wrong input... Choose:\n2 - Add element\n3 - Remove element\n4 - Search element\n5 - Print table\n6 - Exit\n");
+            while (getchar() != '\n')
+                ;
+            return ERROR;
+        }
+        if (c == 2)
         {
             printf("\nPlease enter your data:\n");
-            int res;
+            int res = ERROR;
             if (table->dType == INT_TYPE)
             {
-                readFunc(table, &data);
+                while (scanf("%d", &data) == 0)
+                {
+                    printf("Wrong input... Please enter your data (int)\n");
+                    while (getchar() != '\n')
+                        ;
+                }
                 res = add(table, (void *)(long)data);
             }
             else
@@ -127,13 +125,18 @@ int main()
             else
                 printf("Add success.\n\n");
         }
-        else if (index == 3)
+        else if (c == 3)
         {
             printf("\nPlease enter your data:\n");
             int res;
             if (table->dType == INT_TYPE)
             {
-                readFunc(table, &data);
+                while (scanf("%d", &data) == 0)
+                {
+                    printf("Wrong input... Please enter your data (int)\n");
+                    while (getchar() != '\n')
+                        ;
+                }
                 res = removeObj(table, (void *)(long)data);
             }
             else
@@ -166,14 +169,19 @@ int main()
             else
                 printf("\nRemove success.\n\n");
         }
-        else if (index == 4)
+        else if (c == 4)
         {
             printf("\nPlease enter your data:\n");
-            Object *p;
-            printf("\nSearching...\n");
+            Object *p; 
             if (table->dType == INT_TYPE)
             {
-                readFunc(table, &data);
+                while (scanf("%d", &data) == 0)
+                {
+                    printf("Wrong input... Please enter your data (int)\n");
+                    while (getchar() != '\n')
+                        ;
+                }
+                printf("\nSearching...\n");
                 p = search(table, (void *)(long)data);
             }
             else
@@ -197,6 +205,7 @@ int main()
                         }
                         str[i] = '\0';
                     }
+                    printf("\nSearching...\n");
                     p = search(table, (void *)str);
                     free(str);
                 }
@@ -206,31 +215,34 @@ int main()
             else
                 printf("\nData found\n\n");
         }
-        else if (index == 5)
+        else if (c == 5)
         {
             printf("\nPrinting table:\n\n");
             printTable(table);
             printf("\n--------------Done!\n\n");
         }
-        else if (index == 6)
+        else if (c == 6)
         {
             printf("Bye Bye...\n");
-            break;
+            return (EXIT_SUCCESS);
         }
     }
-    if (table != NULL)
-    {
-        freeTable(table);
-    }
-    return 0;
+
+    return ERROR;
 }
 
-int readFunc(Table *table, int *data)
+int main(int argc, char const *argv[])
 {
-    if (table->dType == INT_TYPE)
+    signal(SIGINT, sig_handler);
+    printf("Welcome to hash table tester!\n");
+    while (TRUE)
     {
-        scanf("%d", data);
-        return !ERROR;
+        if (input() == EXIT_SUCCESS)
+            break;
     }
-    return ERROR;
+
+    if (table != NULL)
+        freeTable(table);
+
+    return 0;
 }

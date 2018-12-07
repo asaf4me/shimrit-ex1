@@ -187,6 +187,8 @@ int removeObj(Table *table, void *data)
 
 int intHashFun(int *key, int origSize) // Hashing the int
 {
+    if((long)key < 0)
+        return -1 * (long)key % origSize;
     return (long)key % origSize;
 }
 
