@@ -8,6 +8,7 @@
 #include "GenericHashTable.h"
 
 Table *table = NULL; //Global to handle SIGINT
+
 #define TRUE 1
 
 void sig_handler(int signo)
@@ -63,12 +64,11 @@ int input()
     else
     {
         printf("Choose:\n2 - Add element\n3 - Remove element\n4 - Search element\n5 - Print table\n6 - Exit\n");
-        if (scanf("%d", &c) == 0 || c < 2 || c > 6)
+        while (scanf("%d", &c) == 0 || c < 2 || c > 6)
         {
             printf("Wrong input... Choose:\n2 - Add element\n3 - Remove element\n4 - Search element\n5 - Print table\n6 - Exit\n");
             while (getchar() != '\n')
                 ;
-            return ERROR;
         }
         if (c == 2)
         {
