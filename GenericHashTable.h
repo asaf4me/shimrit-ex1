@@ -6,6 +6,8 @@
 #define EQUAL 0
 #define NOT_EQUAL 1
 #define HEAD 1
+#define MOD(a,b) ((((a)%(b))+(b))%(b))
+
 
 typedef struct Object {
 	void* data;
