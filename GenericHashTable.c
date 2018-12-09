@@ -299,13 +299,10 @@ void freeTable(Table *table)
                 p = p->next;
                 freeObject(temp, table->dType);
             }
-            table->arr[i] = NULL;
         }
     }
     free(table->arr);
     free(table);
-    table->arr = NULL;
-    table = NULL;
 }
 
 void freeObject(Object *obj, int type)
