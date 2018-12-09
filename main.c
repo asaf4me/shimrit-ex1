@@ -33,6 +33,7 @@ char *string_read()
     unsigned int len_max = 1, current_size = 0;
     int c = EOF;
     char *str = (char *)malloc(len_max * sizeof(char));
+    assert(str != NULL);
     current_size = len_max;
     if (str != NULL)
     {
