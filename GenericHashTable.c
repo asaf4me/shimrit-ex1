@@ -187,7 +187,7 @@ int removeObj(Table *table, void *data)
 
 int intHashFun(int *key, int origSize) // Hashing the int
 {
-    return MOD((long)key , origSize);
+    return MOD((long)key, origSize);
 }
 
 int strHashFun(char *key, int origSize) // Hashing the string
@@ -295,18 +295,9 @@ void freeTable(Table *table)
             Object *temp;
             while (p)
             {
-                if (table->dType == INT_TYPE) //Send the object to free with the int flag
-                {
-                    temp = p;
-                    p = p->next;
-                    freeObject(temp, table->dType);
-                }
-                else //Send the object to free with the String flag
-                {
-                    temp = p;
-                    p = p->next;
-                    freeObject(temp, table->dType);
-                }
+                temp = p;
+                p = p->next;
+                freeObject(temp, table->dType);
             }
             table->arr[i] = NULL;
         }
