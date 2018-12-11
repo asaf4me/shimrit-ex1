@@ -8,7 +8,7 @@
 
 int main()
 {
-    printf("Int: \n");
+    printf("Int: \n\n");
     Table *tableInt = createTable(4, 0, 2);
 
     int data_int1 = 1;
@@ -17,7 +17,6 @@ int main()
     int data_int4 = 36;
     int data_int5 = 1106;
     int data_int6 = 26;
-    int data_int7 = 11;
 
     add(tableInt, &data_int1);
     add(tableInt, &data_int1);
@@ -28,23 +27,18 @@ int main()
     add(tableInt, &data_int4);
     add(tableInt, &data_int5);
     add(tableInt, &data_int6);
-
-    Object *p = search(tableInt, &data_int7);
-    // 
-    if(p != NULL)
-        printf("Search is: %d\n", *(int *)p->data);
-    else
-        printf("Not Found!\n");
-
+    printf("Before removel: \n");
     printTable(tableInt);
     removeObj(tableInt, &data_int1);
     removeObj(tableInt, &data_int5);
     removeObj(tableInt, &data_int6);
-    printf("\n");
+    printf("\nAfter removel: \n");
     printTable(tableInt);
     printf("\n");
 
-    printf("String: \n");
+    freeTable(tableInt);
+
+    printf("Done\nString: \n\n");
     Table *tableString = createTable(12, 1, 2);
 
     char *data_string1 = "asaf";
@@ -60,12 +54,18 @@ int main()
     add(tableString, data_string4);
     add(tableString, data_string5);
     add(tableString, data_string6);
-
+    printf("Before removel: \n");
     printTable(tableString);
     printf("\n");
     removeObj(tableString, data_string1);
-    printf("\n");
+    removeObj(tableString, data_string2);
+    removeObj(tableString, data_string3);
+
+    printf("\nAfter removel: \n");
     printTable(tableString);
+    freeTable(tableString);
+
+    printf("Done \n");
 
     return EXIT_SUCCESS;
 }
