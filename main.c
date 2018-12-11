@@ -33,7 +33,6 @@ char *string_read()
     unsigned int len_max = 1, current_size = 0;
     int c = EOF;
     char *str = (char *)malloc(len_max * sizeof(char));
-    assert(str != NULL);
     current_size = len_max;
     if (str != NULL)
     {
@@ -53,9 +52,23 @@ char *string_read()
     return str;
 }
 
+int *int_read()
+{
+    int *integer = (int *)malloc(sizeof(int));
+    if (integer != NULL)
+    {
+        while (scanf("%d", integer) == 0)
+        {
+            printf("Wrong input... Please enter your data (int)\n");
+            stdin_clear();
+        }
+    }
+    return integer;
+}
+
 int input()
 {
-    int c, data, res = ERROR;
+    int c, res = ERROR;
     if (table == NULL)
     {
         printf("Type 1 to create table\n");
@@ -102,20 +115,22 @@ int input()
         printf("\nPlease enter your data:\n");
         if (table->dType == INT_TYPE)
         {
-            while (scanf("%d", &data) == 0)
+            int *data = int_read();
+            if (data != NULL)
             {
-                printf("Wrong input... Please enter your data (int)\n");
-                stdin_clear();
+                res = add(table, data);
+                free(data);
             }
-            res = add(table, (void *)(long)data);
         }
         else
         {
             char *str = string_read();
-            res = add(table, (void *)str);
-            free(str);
+            if (str != NULL)
+            {
+                res = add(table, str);
+                free(str);
+            }
         }
-
         if (res == ERROR)
             printf("Add failed...\n\n");
         else
@@ -126,18 +141,21 @@ int input()
         printf("\nPlease enter your data:\n");
         if (table->dType == INT_TYPE)
         {
-            while (scanf("%d", &data) == 0)
+            int *data = int_read();
+            if (data != NULL)
             {
-                printf("Wrong input... Please enter your data (int)\n");
-                stdin_clear();
+                res = removeObj(table, data);
+                free(data);
             }
-            res = removeObj(table, (void *)(long)data);
         }
         else
         {
             char *str = string_read();
-            res = removeObj(table, (void *)str);
-            free(str);
+            if (str != NULL)
+            {
+                res = removeObj(table, str);
+                free(str);
+            }
         }
         if (res == ERROR)
             printf("\nRemove failed...\n\n");
@@ -150,20 +168,23 @@ int input()
         Object *p;
         if (table->dType == INT_TYPE)
         {
-            while (scanf("%d", &data) == 0)
+            int *data = int_read();
+            if (data != NULL)
             {
-                printf("Wrong input... Please enter your data (int)\n");
-                stdin_clear();
+                printf("\nSearching...\n");
+                p = search(table, data);
+                free(data);
             }
-            printf("\nSearching...\n");
-            p = search(table, (void *)(long)data);
         }
         else
         {
             char *str = string_read();
             printf("\nSearching...\n");
-            p = search(table, (void *)str);
-            free(str);
+            if (str != NULL)
+            {
+                p = search(table, str);
+                free(str);
+            }
         }
         if (p == NULL)
             printf("\nData didnt found.\n\n");
