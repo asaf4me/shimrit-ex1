@@ -28,7 +28,6 @@ Table *createTable(int size, int dType, int listLength) // Table "constructor", 
         table->d = 1;
         table->currentElemets = 0;
         table->arr = (Object **)malloc(size * sizeof(Object *));
-        // assert(table->arr != NULL);
         if (table->arr == NULL)
             return NULL;
         for (int i = 0; i < size; i++)
@@ -60,16 +59,15 @@ int add(Table *table, void *data)// Function will return ERROR (-1) at memory al
     int addAttemp = ERROR;
     if (table->dType == INT_TYPE) // Hashing with int data
     {
-        int *Intobject = (int *)malloc(sizeof(int));
-        *Intobject = *(int *)data;
-        object = createObject((int *)Intobject);
-        // object = createObject((int *)data); // DO ALIAS?
+        // int *Intobject = (int *)malloc(sizeof(int));
+        // *Intobject = *(int *)data;
+        // object = createObject((int *)Intobject);
+        object = createObject((int *)data); // DO ALIAS?
         hashKey = (table->d * intHashFun((int *)object->data, table->size / table->d));
     }
     else // Hashing with String data
     {
         char *stringObj = (char *)malloc(strlen((char *)data) * sizeof(char) + 1);
-        // assert(stringObj != NULL);
         if (stringObj == NULL)
             return ERROR;
         strcpy(stringObj, (char *)data);
@@ -142,7 +140,6 @@ int addByHash(Table *table, Object *object, int hashKey)// private to handle the
 int expand(Table *table)// expending the table by factor 2, function will return -1 if it failed
 {
     table->arr = (Object **)realloc(table->arr, 2 * table->size * (sizeof(Object *)));
-    // assert(table->arr != NULL);
     if (table->arr == NULL)
         return ERROR;
     table->size = table->size * 2;
@@ -326,7 +323,7 @@ void freeObject(Object *obj, int type) // free object
     else
     {
         // free Int
-        free(obj->data);
+        // free(obj->data);
         free(obj);
     }
 }
