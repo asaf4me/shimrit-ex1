@@ -12,7 +12,7 @@ A the repo you will be able to find interactive main, to check all the function 
 
 **Compile/Valgrind:** 
 
-`gcc -c main.c -o main.o -Wall -Wvla -g `
+`gcc -c main.c -o main.o -Wall -Wvla -g ` <br />
 `gcc -c GenericHashTable.c -o GenericHashTable.o -Wall -Wvla -g `
 `gcc GenericHashTable.o main.o -o run` 
 ``valgrind --tool=memcheck --leak-check=full -v ./run``
