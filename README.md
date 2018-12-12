@@ -8,4 +8,6 @@ gcc -c GenericHashTable.c -o GenericHashTable.o -Wall -Wvla -g <br />
 gcc GenericHashTable.o main.o -o run <br />
 
 valgrind with: <br />
-valgrind --tool=memcheck --leak-check=full -v ./run
+valgrind --tool=memcheck --leak-check=full -v ./run <br />
+
+Note: this is the interactive version, for non-interactive go to non-interactive/
