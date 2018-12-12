@@ -10,4 +10,4 @@ gcc GenericHashTable.o main.o -o run <br />
 valgrind with: <br />
 valgrind --tool=memcheck --leak-check=full -v ./run <br />
 
-Note: this is the interactive version, for non-interactive go to non-interactive/
+#Note: this is the interactive version, for non-interactive go to non-interactive/
