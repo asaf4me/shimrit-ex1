@@ -65,6 +65,11 @@ int add(Table *table, void *data) // Function will return ERROR (-1) at memory a
     if (table->dType == INT_TYPE) // Hashing with int data
     {
         object = createObject((int *)data);
+        if (object == NULL)
+        {
+            printf("Object malloc has failed, return -1 from add function\n");
+            return ERROR;
+        }
         hashKey = (table->d * intHashFun((int *)object->data, table->size / table->d));
     }
     else // Hashing with String data
@@ -77,6 +82,11 @@ int add(Table *table, void *data) // Function will return ERROR (-1) at memory a
         }
         strcpy(stringObj, (char *)data);
         object = createObject((char *)stringObj);
+        if (object == NULL)
+        {
+            printf("Object malloc has failed, return -1 from add function\n");
+            return ERROR;
+        }
         hashKey = (table->d * strHashFun(object->data, table->size / table->d));
     }
     while (addAttemp == ERROR)
