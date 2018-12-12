@@ -58,6 +58,8 @@ int add(Table *table, void *data)// Function will return ERROR (-1) at memory al
     if (table->dType == INT_TYPE) // Hashing with int data
     {
         int *Intobject = (int *)malloc(sizeof(int));
+        if (Intobject == NULL)
+            return ERROR;
         *Intobject = *(int *)data;
         object = createObject((int *)Intobject);
         hashKey = (table->d * intHashFun((int *)object->data, table->size / table->d));
