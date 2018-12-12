@@ -31,9 +31,7 @@ Table *createTable(int size, int dType, int listLength) // Table "constructor", 
         if (table->arr == NULL)
             return NULL;
         for (int i = 0; i < size; i++)
-        {
             table->arr[i] = NULL;
-        }
         return table;
     }
     return NULL;
@@ -59,10 +57,10 @@ int add(Table *table, void *data)// Function will return ERROR (-1) at memory al
     int addAttemp = ERROR;
     if (table->dType == INT_TYPE) // Hashing with int data
     {
-        // int *Intobject = (int *)malloc(sizeof(int));
-        // *Intobject = *(int *)data;
-        // object = createObject((int *)Intobject);
-        object = createObject((int *)data); // DO ALIAS?
+        int *Intobject = (int *)malloc(sizeof(int));
+        *Intobject = *(int *)data;
+        object = createObject((int *)Intobject);
+        // object = createObject((int *)data); // DO ALIAS?
         hashKey = (table->d * intHashFun((int *)object->data, table->size / table->d));
     }
     else // Hashing with String data
@@ -97,21 +95,17 @@ int add(Table *table, void *data)// Function will return ERROR (-1) at memory al
                 hashKey = (2 * hashKey);
             }
             else
-            {
                 addAttemp = addByHash(table, object, hashKey);
-            }
         }
         else
-        {
             addAttemp = addByHash(table, object, hashKey);
-        }
     }
     return addAttemp;
 }
 
 int addByHash(Table *table, Object *object, int hashKey)// private to handle the multiple request for adding
 {
-    if (table->arr[hashKey] == NULL && hashKey > -1)
+    if (table->arr[hashKey] == NULL && hashKey > ERROR)
     {
         table->arr[hashKey] = object;
         table->arr[hashKey]->currentListLength = 1;
@@ -161,15 +155,11 @@ int expand(Table *table)// expending the table by factor 2, function will return
 
 int removeObj(Table *table, void *data)// removing object from the table, function will return -1 if it failed
 {
-    int hashKey = -1;
+    int hashKey = ERROR;
     if (table->dType == INT_TYPE) // Hashing with int data
-    {
         hashKey = (table->d * intHashFun(data, table->size / table->d));
-    }
     else // Hashing with String data
-    {
         hashKey = (table->d * strHashFun(data, table->size / table->d));
-    }
 
     for (int i = hashKey; i < hashKey + table->d; i++)
     {
@@ -203,9 +193,7 @@ int strHashFun(char *key, int origSize) // Hashing the string
 {
     int hashKey = 0;
     for (int i = 0; i < strlen(key); i++)
-    {
         hashKey += (int)key[i];
-    }
     return hashKey % origSize;
 }
 
@@ -228,15 +216,11 @@ int isEqual(int type, void *data1, void *data2)// determine whatever two objects
 
 Object *search(Table *table, void *data)// searching for an object at the hash table
 {
-    int hashKey = -1;
+    int hashKey = ERROR;
     if (table->dType == INT_TYPE) // Hashing with int data
-    {
         hashKey = (table->d * intHashFun(data, table->size / table->d));
-    }
     else // Hashing with String data
-    {
         hashKey = (table->d * strHashFun(data, table->size / table->d));
-    }
 
     Object *object;
     for (int i = hashKey; i < hashKey + table->d; i++)
@@ -281,19 +265,14 @@ void printTable(Table *table) // table print
             printf("\n");
         }
         else
-        {
-            printf("[%d]\t", i);
-            printf("\n");
-        }
+            printf("[%d]\t\n", i);
     }
 }
 
 void freeTable(Table *table) // free all the table
 {
     if (table == NULL)
-    {
         return;
-    }
     for (int i = 0; i < table->size; i++)
     {
         if (table->arr[i] != NULL)
@@ -314,16 +293,6 @@ void freeTable(Table *table) // free all the table
 
 void freeObject(Object *obj, int type) // free object
 {
-    if (type == STR_TYPE)
-    {
-        // free String
-        free(obj->data);
-        free(obj);
-    }
-    else
-    {
-        // free Int
-        // free(obj->data);
-        free(obj);
-    }
+    free(obj->data);
+    free(obj);
 }
