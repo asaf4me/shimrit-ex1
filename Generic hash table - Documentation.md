@@ -1,7 +1,5 @@
 **Generic hash table - Documentation** 
 
-*Writer* : <u>Asaf Joseph , ID: 203819065</u>
-
 *Description* : At this exercise we have been requested to implement generic hash table, that means that the data structure is generic and the same logic can served both int and string. The hashing promise you to handle operation such as: add, remove, search, delete  on the average time of o(1).
 
 **Repos**: `https://github.com/asaf4me/shimrit-ex1`
