@@ -52,7 +52,7 @@ Object *createObject(void *data) // Object "constructor", Function will return N
 
 int add(Table *table, void *data)// Function will return ERROR (-1) at memory allocation fail or adding fail
 {
-    int hashKey = -1;
+    int hashKey = ERROR;
     Object *object;
     int addAttemp = ERROR;
     if (table->dType == INT_TYPE) // Hashing with int data
