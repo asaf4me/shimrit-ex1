@@ -60,7 +60,6 @@ int add(Table *table, void *data)// Function will return ERROR (-1) at memory al
         int *Intobject = (int *)malloc(sizeof(int));
         *Intobject = *(int *)data;
         object = createObject((int *)Intobject);
-        // object = createObject((int *)data); // DO ALIAS?
         hashKey = (table->d * intHashFun((int *)object->data, table->size / table->d));
     }
     else // Hashing with String data
