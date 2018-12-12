@@ -14,7 +14,7 @@ A the repo you will be able to find interactive main, to check all the function 
 
 `gcc -c main.c -o main.o -Wall -Wvla -g ` <br />
 `gcc -c GenericHashTable.c -o GenericHashTable.o -Wall -Wvla -g ` <br />
-`gcc GenericHashTable.o main.o -o run` <br />
+`gcc GenericHashTable.o main.o -o run -g` <br />
 ``valgrind --tool=memcheck --leak-check=full -v ./run``
 
 
