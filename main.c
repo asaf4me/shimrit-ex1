@@ -4,7 +4,6 @@
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
-#include <ctype.h>
 #include "GenericHashTable.h"
 
 Table *table = NULL; //Global to handle SIGINT
