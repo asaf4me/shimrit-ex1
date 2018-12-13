@@ -19,6 +19,16 @@ int addByHash(Table *table, Object *object, int hashKey);
 
 Table *createTable(int size, int dType, int listLength) // Table "constructor", , Function will return NULL on memory allocation fail
 {
+    if (size < 0 || listLength < 0)
+    {
+        printf("Invalid table size, return NULL");
+        return NULL;
+    }
+    if (dType != STR_TYPE && dType != INT_TYPE)
+    {
+        printf("Invalid table type, return NULL");
+        return NULL;
+    }
     Table *table = (Table *)malloc(sizeof(Table));
     if (table != NULL)
     {
@@ -242,17 +252,15 @@ int isEqual(int type, void *data1, void *data2) // determine whatever two object
         printf("Invalid data to compare, return -1\n");
         return ERROR;
     }
-    if (type == INT_TYPE)
+    if (type == INT_TYPE) // Int Compare
     {
-        // Int Compare
         if (*(int *)data1 == *(int *)data2)
             return EQUAL;
         else
             return NOT_EQUAL;
     }
-    else
+    else //String Compare
     {
-        //String Compare
         return strcmp((char *)data1, (char *)data2);
     }
 }
