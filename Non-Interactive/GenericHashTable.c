@@ -59,6 +59,11 @@ Object *createObject(void *data) // Object "constructor", Function will return N
 
 int add(Table *table, void *data) // Function will return ERROR (-1) at memory allocation fail or adding fail
 {
+    if (data == NULL)
+    {
+        printf("Invalid data, return -1\n");
+        return ERROR;
+    }
     int hashKey = ERROR;
     Object *object;
     int addAttemp = ERROR;
@@ -183,15 +188,16 @@ int expand(Table *table) // expending the table by factor 2, function will retur
 
 int removeObj(Table *table, void *data) // removing object from the table, function will return -1 if it failed
 {
+    if (data == NULL)
+    {
+        printf("Invalid data, return -1\n");
+        return ERROR;
+    }
     int hashKey = ERROR;
     if (table->dType == INT_TYPE) // Hashing with int data
-    {
         hashKey = (table->d * intHashFun(data, table->size / table->d));
-    }
     else // Hashing with String data
-    {
         hashKey = (table->d * strHashFun(data, table->size / table->d));
-    }
 
     for (int i = hashKey; i < hashKey + table->d; i++)
     {
@@ -225,14 +231,17 @@ int strHashFun(char *key, int origSize) // Hashing the string
 {
     int hashKey = 0;
     for (int i = 0; i < strlen(key); i++)
-    {
         hashKey += (int)key[i];
-    }
     return hashKey % origSize;
 }
 
 int isEqual(int type, void *data1, void *data2) // determine whatever two objects are equal
 {
+    if (data1 == NULL || data2 == NULL)
+    {
+        printf("Invalid data to compare, return -1\n");
+        return ERROR;
+    }
     if (type == INT_TYPE)
     {
         // Int Compare
@@ -250,6 +259,11 @@ int isEqual(int type, void *data1, void *data2) // determine whatever two object
 
 Object *search(Table *table, void *data) // searching for an object at the hash table
 {
+    if (data == NULL)
+    {
+        printf("Invalid data, return NULL\n");
+        return NULL;
+    }
     int hashKey = ERROR;
     if (table->dType == INT_TYPE) // Hashing with int data
         hashKey = (table->d * intHashFun(data, table->size / table->d));
